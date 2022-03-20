@@ -1,0 +1,71 @@
+Ctrl + C - остановка работающего приложения (выход из консоли и переход
+в окно far manager)
+
+0) Зайти на сайт https://start.spring.io/
+
+   Оставить стандартные настройки (Project "Maven Project", Language "Java",
+   Spring Boot "2.6.4", Packaging "Jar", Java "11")
+
+   Нажать на кнопку "ADD DEPENDENCIES..." (CTRL + B), чтобы добавить библиотеки
+   Spring Web, Thymeleaf.
+
+   "GENERATE CTRL + ENTER", чтобы загрузить архив проекта с веб-сервером.
+
+1) После установки архива извлечь директорию "demo" в любом каталоге.
+
+2) Выполнить сборку проекта: а) demo>mvn install
+                      	     б) demo\target>java -jar demo-0.0.1-SNAPSHOT.jar
+
+3) В папке demo\src\main\java\com\example\demo необходимо создать 
+директорию controller, и поместить в неё файл MainController.java.
+
+Код файла MainController.java:
+
+"package com.example.demo.controller;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+@Controller
+        public class MainController {
+            //Вводится inject
+            @Value("${welcome.message}")
+            private String message;
+
+            @RequestMapping(value = { "/", "/index" }, method = RequestMethod.GET)
+            public String index(Model model) {
+                model.addAttribute("message", message);
+
+                return "index";
+            }
+
+}"
+
+4) В папку demo\src\main\resources\templates нужно поместить файл
+index.html.
+
+Код html-файла:
+
+"<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+   <head>
+      <meta charset="UTF-8" />
+      <title>Welcome</title>
+   </head>
+   <body>
+      <h1>Welcome</h1>
+      <h2 th:utext="${message}">..!..</h2>
+   </body>
+</html>"
+
+5) В файл demo\src\main\resources\application.properties добавить данные.
+(Например, "welcome.message=Spring !!!")
+
+6) Для пересборки также: а) demo>mvn install
+                         б) demo\target>java -jar demo-0.0.1-SNAPSHOT.jar
+
+
+
